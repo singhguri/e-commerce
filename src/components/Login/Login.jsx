@@ -11,7 +11,8 @@ import {
 // import { BRAND_NAME } from "../constants";
 
 import "./styles.css";
-
+import { LoginService } from "../../services/Login.service/LoginService";
+import { useNavigate } from "react-router-dom";
 // import useStyles from "./styles";
 
 const Login = () => {
@@ -22,6 +23,8 @@ const Login = () => {
     open: false,
   });
 
+  const navigate = useNavigate();
+
   const setUsername = (event) => {
     setlogin({ ...login, username: event.target.value });
   };
@@ -31,19 +34,25 @@ const Login = () => {
   };
 
   const signIn = () => {
-    if (login.username === "react" && login.password === "password") {
-      setlogin({
-        ...login,
-        open: true,
-        message: "You have successfully Logged In!",
-      });
+    if (login.username && login.password) {
+      LoginService(login.username, login.password).then((response) => {
+        if (response?.respStatus) {
+          setlogin({
+            ...login,
+            open: true,
+            message: "You have successfully Logged In!",
+          });
 
-      // const history = useHistory();
-    } else {
-      setlogin({
-        ...login,
-        open: true,
-        message: "Incorrect Username or Password!",
+          localStorage.setItem("token", response.accessToken);
+
+          return navigate("/dashboard");
+        } else {
+          setlogin({
+            ...login,
+            open: true,
+            message: "Incorrect Username or Password!",
+          });
+        }
       });
     }
   };
