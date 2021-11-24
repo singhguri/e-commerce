@@ -12,7 +12,7 @@ const Dashboard = () => {
   // };
 
   useEffect(() => {
-    // fetchProducts();
+    console.log(localStorage.getItem("token"));
   }, []);
 
   // console.log(products);

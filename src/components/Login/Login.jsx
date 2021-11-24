@@ -12,7 +12,7 @@ import {
 
 import "./styles.css";
 import { LoginService } from "../../services/Login.service/LoginService";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 // import useStyles from "./styles";
 
 const Login = () => {
@@ -23,7 +23,7 @@ const Login = () => {
     open: false,
   });
 
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const setUsername = (event) => {
     setlogin({ ...login, username: event.target.value });
@@ -44,8 +44,8 @@ const Login = () => {
           });
 
           localStorage.setItem("token", response.accessToken);
-
-          return navigate("/dashboard");
+          
+          history.push("/dashboard");
         } else {
           setlogin({
             ...login,
